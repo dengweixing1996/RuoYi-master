@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('随手拍工单信息列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>问题区域：</label>
+                                <input type="text" name="ordersProblemarea"/>
+                            </li>
+                            <li>
+                                <label>问题名称：</label>
+                                <input type="text" name="ordersName"/>
+                            </li>
+                            <li>
+                                <label>问题描述：</label>
+                                <input type="text" name="ordersDescription"/>
+                            </li>
+                            <li>
+                                <label>问题照片路径：</label>
+                                <input type="text" name="ordersPhotopath"/>
+                            </li>
+                            <li>
+                                <label>所属片区：</label>
+                                <input type="text" name="ordersArea"/>
+                            </li>
+                            <li>
+                                <label>所属网格：</label>
+                                <input type="text" name="ordersGrid"/>
+                            </li>
+                            <li>
+                                <label>发现时间：</label>
+                                <input type="text" class="time-input" placeholder="请选择发现时间" name="ordersFindtime"/>
+                            </li>
+                            <li>
+                                <label>是否上报：</label>
+                                <input type="text" name="ordersSfsb"/>
+                            </li>
+                            <li>
+                                <label>登记人姓名：</label>
+                                <input type="text" name="ordersRegisname"/>
+                            </li>
+                            <li>
+                                <label>当前办理人：</label>
+                                <input type="text" name="ordersHandler"/>
+                            </li>
+                            <li>
+                                <label>已超天数：</label>
+                                <input type="text" name="ordersDays"/>
+                            </li>
+                            <li>
+                                <label>GPS定位地址：</label>
+                                <input type="text" name="ordersGps"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:orders:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:orders:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:orders:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:orders:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:orders:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:orders:remove')}]];
+        var prefix = ctx + "system/orders";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "随手拍工单信息",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'ordersId',
+                    title: '工单编号',
+                    visible: false
+                },
+                {
+                    field: 'ordersType',
+                    title: '工单类型'
+                },
+                {
+                    field: 'ordersProblemarea',
+                    title: '问题区域'
+                },
+                {
+                    field: 'ordersName',
+                    title: '问题名称'
+                },
+                {
+                    field: 'ordersDescription',
+                    title: '问题描述'
+                },
+                {
+                    field: 'ordersPhotopath',
+                    title: '问题照片路径'
+                },
+                {
+                    field: 'ordersArea',
+                    title: '所属片区'
+                },
+                {
+                    field: 'ordersGrid',
+                    title: '所属网格'
+                },
+                {
+                    field: 'ordersFindtime',
+                    title: '发现时间'
+                },
+                {
+                    field: 'ordersSfsb',
+                    title: '是否上报'
+                },
+                {
+                    field: 'ordersRegisname',
+                    title: '登记人姓名'
+                },
+                {
+                    field: 'ordersStatus',
+                    title: '派发状态'
+                },
+                {
+                    field: 'ordersProcessingStatus',
+                    title: '处理状态'
+                },
+                {
+                    field: 'ordersHandler',
+                    title: '当前办理人'
+                },
+                {
+                    field: 'ordersDays',
+                    title: '已超天数'
+                },
+                {
+                    field: 'ordersGps',
+                    title: 'GPS定位地址'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.ordersId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.ordersId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

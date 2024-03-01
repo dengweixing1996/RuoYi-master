@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysRiskMapper">
+    
+    <resultMap type="SysRisk" id="SysRiskResult">
+        <result property="riskId"    column="risk_id"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="riskArea"    column="risk_area"    />
+        <result property="riskType"    column="risk_type"    />
+        <result property="riskCode"    column="risk_code"    />
+        <result property="riskName"    column="risk_name"    />
+        <result property="riskAccident"    column="risk_accident"    />
+        <result property="riskPoint"    column="risk_point"    />
+        <result property="riskControl"    column="risk_control"    />
+    </resultMap>
+
+    <sql id="selectSysRiskVo">
+        select risk_id, enterprise_id, risk_area, risk_type, risk_code, risk_name, risk_accident, risk_point, risk_control from sys_risk
+    </sql>
+
+    <select id="selectSysRiskList" parameterType="SysRisk" resultMap="SysRiskResult">
+        <include refid="selectSysRiskVo"/>
+        <where>  
+            <if test="enterpriseId != null "> and enterprise_id = #{enterpriseId}</if>
+            <if test="riskArea != null  and riskArea != ''"> and risk_area = #{riskArea}</if>
+            <if test="riskType != null  and riskType != ''"> and risk_type = #{riskType}</if>
+            <if test="riskCode != null  and riskCode != ''"> and risk_code = #{riskCode}</if>
+            <if test="riskName != null  and riskName != ''"> and risk_name like concat('%', #{riskName}, '%')</if>
+            <if test="riskAccident != null  and riskAccident != ''"> and risk_accident = #{riskAccident}</if>
+            <if test="riskPoint != null  and riskPoint != ''"> and risk_point = #{riskPoint}</if>
+            <if test="riskControl != null  and riskControl != ''"> and risk_control = #{riskControl}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysRiskByRiskId" parameterType="Long" resultMap="SysRiskResult">
+        <include refid="selectSysRiskVo"/>
+        where risk_id = #{riskId}
+    </select>
+        
+    <insert id="insertSysRisk" parameterType="SysRisk" useGeneratedKeys="true" keyProperty="riskId">
+        insert into sys_risk
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="enterpriseId != null">enterprise_id,</if>
+            <if test="riskArea != null">risk_area,</if>
+            <if test="riskType != null">risk_type,</if>
+            <if test="riskCode != null">risk_code,</if>
+            <if test="riskName != null">risk_name,</if>
+            <if test="riskAccident != null">risk_accident,</if>
+            <if test="riskPoint != null">risk_point,</if>
+            <if test="riskControl != null">risk_control,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="enterpriseId != null">#{enterpriseId},</if>
+            <if test="riskArea != null">#{riskArea},</if>
+            <if test="riskType != null">#{riskType},</if>
+            <if test="riskCode != null">#{riskCode},</if>
+            <if test="riskName != null">#{riskName},</if>
+            <if test="riskAccident != null">#{riskAccident},</if>
+            <if test="riskPoint != null">#{riskPoint},</if>
+            <if test="riskControl != null">#{riskControl},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysRisk" parameterType="SysRisk">
+        update sys_risk
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="enterpriseId != null">enterprise_id = #{enterpriseId},</if>
+            <if test="riskArea != null">risk_area = #{riskArea},</if>
+            <if test="riskType != null">risk_type = #{riskType},</if>
+            <if test="riskCode != null">risk_code = #{riskCode},</if>
+            <if test="riskName != null">risk_name = #{riskName},</if>
+            <if test="riskAccident != null">risk_accident = #{riskAccident},</if>
+            <if test="riskPoint != null">risk_point = #{riskPoint},</if>
+            <if test="riskControl != null">risk_control = #{riskControl},</if>
+        </trim>
+        where risk_id = #{riskId}
+    </update>
+
+    <delete id="deleteSysRiskByRiskId" parameterType="Long">
+        delete from sys_risk where risk_id = #{riskId}
+    </delete>
+
+    <delete id="deleteSysRiskByRiskIds" parameterType="String">
+        delete from sys_risk where risk_id in 
+        <foreach item="riskId" collection="array" open="(" separator="," close=")">
+            #{riskId}
+        </foreach>
+    </delete>
+
+</mapper>

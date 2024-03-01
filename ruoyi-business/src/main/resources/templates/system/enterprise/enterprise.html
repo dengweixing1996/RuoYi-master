@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('企业信息列表')"/>
+</head>
+
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            <label>企业名称：</label>
+                            <input type="text" name="enterpriseName"/>
+                        </li>
+                        <li>
+                            <label>所属片区：</label>
+                            <select class="form-control m-b" name="enterpriseArea" th:with="type=${@dict.getType('sys_enterprise_area')}">
+                                <option value="" selected="selected">请选择</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li>
+                            <label>行业类别：</label>
+                            <select class="form-control m-b" name="enterpriseCategory" th:with="type=${@dict.getType('sys_enterprise_category')}">
+                                <option value="" selected="selected">请选择</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li>
+                            <label>所属网格：</label>
+                            <select class="form-control m-b" name="enterpriseGrid" th:with="type=${@dict.getType('sys_enterprise_grid')}">
+                                <option value="" selected="selected">请选择</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li>
+                            <label style="white-space: nowrap">实际经营地址：</label>
+                            <input type="text" name="enterpriseAddress"/>
+                        </li>
+                        <li>
+                            <label>员工人数：</label>
+                            <input type="text" name="enterpriseNumber"/>
+                        </li>
+                        <li>
+                            <label>主要产品：</label>
+                            <input type="text" name="enterpriseProducts"/>
+                        </li>
+                        <li>
+                            <label style="width:95px;white-space: nowrap">是否有宿舍：</label>
+                            <select name="enterpriseDormitory">
+                                <option value="">请选择</option>
+                                <option value="是">是</option>
+                                <option value="否">否</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label style="width:95px;white-space: nowrap">是否有危化品：</label>
+                            <select name="enterpriseHazardous">
+                                <option value="">请选择</option>
+                                <option value="是">是</option>
+                                <option value="否">否</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label style="width:115px;white-space: nowrap">是否有理化实验室：</label>
+                            <select name="enterpriseLab">
+                                <option value="">请选择</option>
+                                <option value="是">是</option>
+                                <option value="否">否</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label style="width:105px;white-space: nowrap">危化品风险评级：</label>
+                            <select class="form-control m-b" name="enterpriseRisklevel" th:with="type=${@dict.getType('sys_enterprise_risklevel')}">
+                                <option value="" selected="selected">请选择</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li>
+                            <label style="width:115px;white-space: nowrap">工业企业风险定级：</label>
+                            <select class="form-control m-b" name="enterpriseEnterpriseLevel" th:with="type=${@dict.getType('sys_enterprise_enterprise_level')}">
+                                <option value="" selected="selected">请选择</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                            </select>
+
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                    class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                    class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:enterprise:add">
+                <i class="fa fa-plus"></i> 添加
+            </a>
+            <a class="btn btn-primary single disabled" onclick="$.operate.edit()"
+               shiro:hasPermission="system:enterprise:edit">
+                <i class="fa fa-edit"></i> 修改
+            </a>
+            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
+               shiro:hasPermission="system:enterprise:remove">
+                <i class="fa fa-remove"></i> 删除
+            </a>
+            <a class="btn btn-info" onclick="$.table.importExcel()" shiro:hasPermission="system:enterprise:import">
+                <i class="fa fa-upload"></i> 导入
+            </a>
+            <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:enterprise:export">
+                <i class="fa fa-download"></i> 导出
+            </a>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="moveOutModal" tabindex="-1" role="dialog" aria-labelledby="moveOutModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="moveOutModalLabel">企业迁出信息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="moveOutForm">
+                    <div class="form-group">
+                        <label for="movePerson">迁出人</label>
+                        <input type="text" class="form-control" id="movePerson" name="movePerson" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="moveDate">迁出日期</label>
+                        <input type="date" class="form-control" id="moveDate" name="moveDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="moveReason">迁出原因</label>
+                        <textarea class="form-control" id="moveReason" name="moveReason" required></textarea>
+                    </div>
+                    <input type="hidden" id="enterpriseId" name="enterpriseId">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="submitMoveOut()">提交迁出</button>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('system:enterprise:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('system:enterprise:remove')}]];
+    var prefix = ctx + "system/enterprise";
+    function showMoveOutModal(enterpriseId) {
+        $('#enterpriseId').val(enterpriseId); // 将企业ID设置到隐藏的表单字段中
+        $('#moveOutModal').modal('show'); // 显示模态弹窗
+    }
+
+    function submitMoveOut() {
+        console.log($('#enterpriseId').val());
+        // 收集数据
+        var moveOutData = {
+            enterpriseId:$('#enterpriseId').val(),
+            moveDate: $('#moveDate').val(), // 假设有一个ID为moveOutDate的输入框
+            moveReason: $('#moveReason').val(), // 假设有一个ID为moveOutReason的输入框
+            movePerson: $('#movePerson').val() // 假设有一个ID为moveOutPerson的输入框
+        };
+
+        // 发送AJAX请求到后端
+        $.ajax({
+            type: "POST",
+            url: "/system/enterprise/moveOut", // 后端处理迁出请求的URL   ---需要修改
+            data: JSON.stringify(moveOutData),
+            contentType: "application/json; charset=utf-8",
+            success: function(response) {
+                alert("迁出成功！");
+                $('#moveOutModal').modal('hide'); // 关闭模态框
+                $.table.search();
+                // 可以在这里添加更多的成功处理逻辑，比如重新加载数据
+            },
+            error: function() {
+                alert("迁出失败，请稍后再试。");
+            }
+        });
+    }
+
+    $(function () {
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix + "/remove",
+            exportUrl: prefix + "/export",
+            importUrl: prefix + "/importData",
+            modalName: "企业信息",
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field: 'enterpriseId',
+                    title: '企业编号',
+                    visible: false
+                },
+                {
+                    field: 'enterpriseName',
+                    title: '企业名称'
+                },
+                {
+                    field: 'enterpriseArea',
+                    title: '所属片区'
+                },
+                {
+                    field: 'enterpriseCategory',
+                    title: '行业类别'
+                },
+                {
+                    field: 'enterpriseType',
+                    title: '经营类型'
+                },
+                {
+                    field: 'enterprise181type',
+                    title: '181平台类型'
+                },
+                {
+                    field: 'enterpriseGstype',
+                    title: '是否规上企业'
+                },
+                {
+                    field: 'enterpriseGrid',
+                    title: '所属网格'
+                },
+                {
+                    field: 'enterprisePropertytype',
+                    title: '产权类型'
+                },
+                {
+                    field: 'enterpriseAddress',
+                    title: '实际经营地址'
+                },
+                {
+                    field: 'enterpriseNumber',
+                    title: '员工人数'
+                },
+                {
+                    field: 'enterpriseOfficer',
+                    title: '安全负责人'
+                },
+                {
+                    field: 'enterpriseOfficerphone',
+                    title: '安全负责人电话'
+                },
+                {
+                    field: 'enterpriseProducts',
+                    title: '主要产品'
+                },
+                {
+                    field: 'enterpriseDormitory',
+                    title: '是否有宿舍'
+                },
+                {
+                    field: 'enterpriseMianji',
+                    title: '宿舍面积'
+                },
+                {
+                    field: 'enterpriseHazardous',
+                    title: '是否有危化品'
+                },
+                {
+                    field: 'enterpriseLab',
+                    title: '是否有理化实验室'
+                },
+                {
+                    field: 'enterpriseGastype',
+                    title: '燃气种类'
+                },
+                {
+                    field: 'enterpriseUsagetype',
+                    title: '燃气使用类型'
+                },
+                {
+                    field: 'enterpriseRisklevel',
+                    title: '危化品风险评级'
+                },
+                {
+                    field: 'enterpriseEnterpriseLevel',
+                    title: '工业企业风险定级'
+                },
+                {
+                    field: 'enterpriseTzzytype',
+                    title: '特种作业类型'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.enterpriseId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.enterpriseId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="showMoveOutModal(\'' + row.enterpriseId + '\')"><i class="fa fa-edit"></i>迁出</a>');
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+    });
+</script>
+
+<!-- 导入区域 -->
+<script id="importTpl" type="text/template">
+    <form enctype="multipart/form-data" class="mt20 mb10">
+        <div class="col-xs-offset-1">
+            <input type="file" id="file" name="file"/>
+            <div class="mt10 pt5">
+                <input type="checkbox" id="updateSupport" name="updateSupport" title="如果登录账户已经存在，更新这条数据。"> 是否更新已经存在的用户数据
+                &nbsp;	<a onclick="$.table.importTemplate()" class="btn btn-default btn-xs"><i class="fa fa-file-excel-o"></i> 下载模板</a>
+            </div>
+            <font color="red" class="pull-left mt10">
+                提示：仅允许导入“xls”或“xlsx”格式文件！
+            </font>
+        </div>
+    </form>
+</script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysEnterpriseMapper">
+    
+    <resultMap type="SysEnterprise" id="SysEnterpriseResult">
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="enterpriseName"    column="enterprise_name"    />
+        <result property="enterpriseArea"    column="enterprise_area"    />
+        <result property="enterpriseCategory"    column="enterprise_category"    />
+        <result property="enterpriseType"    column="enterprise_type"    />
+        <result property="enterprise181type"    column="enterprise_181type"    />
+        <result property="enterpriseGstype"    column="enterprise_gstype"    />
+        <result property="enterpriseGrid"    column="enterprise_grid"    />
+        <result property="enterprisePropertytype"    column="enterprise_propertytype"    />
+        <result property="enterpriseAddress"    column="enterprise_address"    />
+        <result property="enterpriseNumber"    column="enterprise_number"    />
+        <result property="enterpriseOfficer"    column="enterprise_officer"    />
+        <result property="enterpriseOfficerphone"    column="enterprise_officerphone"    />
+        <result property="enterpriseProducts"    column="enterprise_products"    />
+        <result property="enterpriseDormitory"    column="enterprise_dormitory"    />
+        <result property="enterpriseMianji"    column="enterprise_mianji"    />
+        <result property="enterpriseHazardous"    column="enterprise_hazardous"    />
+        <result property="enterpriseLab"    column="enterprise_lab"    />
+        <result property="enterpriseGastype"    column="enterprise_gastype"    />
+        <result property="enterpriseUsagetype"    column="enterprise_usagetype"    />
+        <result property="enterpriseRisklevel"    column="enterprise_risklevel"    />
+        <result property="enterpriseEnterpriseLevel"    column="enterprise_enterprise_level"    />
+        <result property="enterpriseTzzytype"    column="enterprise_tzzytype"    />
+    </resultMap>
+
+    <sql id="selectSysEnterpriseVo">
+        select enterprise_id, enterprise_name, enterprise_area, enterprise_category, enterprise_type, enterprise_181type, enterprise_gstype, enterprise_grid, enterprise_propertytype, enterprise_address, enterprise_number, enterprise_officer, enterprise_officerphone, enterprise_products, enterprise_dormitory, enterprise_mianji, enterprise_hazardous, enterprise_lab, enterprise_gastype, enterprise_usagetype, enterprise_risklevel, enterprise_enterprise_level, enterprise_tzzytype from sys_enterprise
+    </sql>
+
+    <select id="selectSysEnterpriseList" parameterType="SysEnterprise" resultMap="SysEnterpriseResult">
+        <include refid="selectSysEnterpriseVo"/>
+        <where>  
+            <if test="enterpriseName != null  and enterpriseName != ''"> and enterprise_name like concat('%', #{enterpriseName}, '%')</if>
+            <if test="enterpriseArea != null  and enterpriseArea != ''"> and enterprise_area = #{enterpriseArea}</if>
+            <if test="enterpriseCategory != null  and enterpriseCategory != ''"> and enterprise_category = #{enterpriseCategory}</if>
+            <if test="enterpriseType != null  and enterpriseType != ''"> and enterprise_type = #{enterpriseType}</if>
+            <if test="enterprise181type != null  and enterprise181type != ''"> and enterprise_181type = #{enterprise181type}</if>
+            <if test="enterpriseGstype != null  and enterpriseGstype != ''"> and enterprise_gstype = #{enterpriseGstype}</if>
+            <if test="enterpriseGrid != null  and enterpriseGrid != ''"> and enterprise_grid = #{enterpriseGrid}</if>
+            <if test="enterprisePropertytype != null  and enterprisePropertytype != ''"> and enterprise_propertytype = #{enterprisePropertytype}</if>
+            <if test="enterpriseAddress != null  and enterpriseAddress != ''"> and enterprise_address = #{enterpriseAddress}</if>
+            <if test="enterpriseNumber != null "> and enterprise_number = #{enterpriseNumber}</if>
+            <if test="enterpriseOfficer != null  and enterpriseOfficer != ''"> and enterprise_officer = #{enterpriseOfficer}</if>
+            <if test="enterpriseOfficerphone != null  and enterpriseOfficerphone != ''"> and enterprise_officerphone = #{enterpriseOfficerphone}</if>
+            <if test="enterpriseProducts != null  and enterpriseProducts != ''"> and enterprise_products = #{enterpriseProducts}</if>
+            <if test="enterpriseDormitory != null  and enterpriseDormitory != ''"> and enterprise_dormitory = #{enterpriseDormitory}</if>
+            <if test="enterpriseMianji != null "> and enterprise_mianji = #{enterpriseMianji}</if>
+            <if test="enterpriseHazardous != null  and enterpriseHazardous != ''"> and enterprise_hazardous = #{enterpriseHazardous}</if>
+            <if test="enterpriseLab != null  and enterpriseLab != ''"> and enterprise_lab = #{enterpriseLab}</if>
+            <if test="enterpriseGastype != null  and enterpriseGastype != ''"> and enterprise_gastype = #{enterpriseGastype}</if>
+            <if test="enterpriseUsagetype != null  and enterpriseUsagetype != ''"> and enterprise_usagetype = #{enterpriseUsagetype}</if>
+            <if test="enterpriseRisklevel != null  and enterpriseRisklevel != ''"> and enterprise_risklevel = #{enterpriseRisklevel}</if>
+            <if test="enterpriseEnterpriseLevel != null  and enterpriseEnterpriseLevel != ''"> and enterprise_enterprise_level = #{enterpriseEnterpriseLevel}</if>
+            <if test="enterpriseTzzytype != null  and enterpriseTzzytype != ''"> and enterprise_tzzytype = #{enterpriseTzzytype}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysEnterpriseByEnterpriseId" parameterType="Long" resultMap="SysEnterpriseResult">
+        <include refid="selectSysEnterpriseVo"/>
+        where enterprise_id = #{enterpriseId}
+    </select>
+
+
+    <insert id="insertSysEnterprise" parameterType="SysEnterprise" useGeneratedKeys="true" keyProperty="enterpriseId">
+        insert into sys_enterprise
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="enterpriseName != null and enterpriseName != ''">enterprise_name,</if>
+            <if test="enterpriseArea != null">enterprise_area,</if>
+            <if test="enterpriseCategory != null">enterprise_category,</if>
+            <if test="enterpriseType != null">enterprise_type,</if>
+            <if test="enterprise181type != null">enterprise_181type,</if>
+            <if test="enterpriseGstype != null">enterprise_gstype,</if>
+            <if test="enterpriseGrid != null">enterprise_grid,</if>
+            <if test="enterprisePropertytype != null">enterprise_propertytype,</if>
+            <if test="enterpriseAddress != null">enterprise_address,</if>
+            <if test="enterpriseNumber != null">enterprise_number,</if>
+            <if test="enterpriseOfficer != null">enterprise_officer,</if>
+            <if test="enterpriseOfficerphone != null">enterprise_officerphone,</if>
+            <if test="enterpriseProducts != null">enterprise_products,</if>
+            <if test="enterpriseDormitory != null">enterprise_dormitory,</if>
+            <if test="enterpriseMianji != null">enterprise_mianji,</if>
+            <if test="enterpriseHazardous != null">enterprise_hazardous,</if>
+            <if test="enterpriseLab != null">enterprise_lab,</if>
+            <if test="enterpriseGastype != null">enterprise_gastype,</if>
+            <if test="enterpriseUsagetype != null">enterprise_usagetype,</if>
+            <if test="enterpriseRisklevel != null">enterprise_risklevel,</if>
+            <if test="enterpriseEnterpriseLevel != null">enterprise_enterprise_level,</if>
+            <if test="enterpriseTzzytype != null">enterprise_tzzytype,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="enterpriseName != null and enterpriseName != ''">#{enterpriseName},</if>
+            <if test="enterpriseArea != null">#{enterpriseArea},</if>
+            <if test="enterpriseCategory != null">#{enterpriseCategory},</if>
+            <if test="enterpriseType != null">#{enterpriseType},</if>
+            <if test="enterprise181type != null">#{enterprise181type},</if>
+            <if test="enterpriseGstype != null">#{enterpriseGstype},</if>
+            <if test="enterpriseGrid != null">#{enterpriseGrid},</if>
+            <if test="enterprisePropertytype != null">#{enterprisePropertytype},</if>
+            <if test="enterpriseAddress != null">#{enterpriseAddress},</if>
+            <if test="enterpriseNumber != null">#{enterpriseNumber},</if>
+            <if test="enterpriseOfficer != null">#{enterpriseOfficer},</if>
+            <if test="enterpriseOfficerphone != null">#{enterpriseOfficerphone},</if>
+            <if test="enterpriseProducts != null">#{enterpriseProducts},</if>
+            <if test="enterpriseDormitory != null">#{enterpriseDormitory},</if>
+            <if test="enterpriseMianji != null">#{enterpriseMianji},</if>
+            <if test="enterpriseHazardous != null">#{enterpriseHazardous},</if>
+            <if test="enterpriseLab != null">#{enterpriseLab},</if>
+            <if test="enterpriseGastype != null">#{enterpriseGastype},</if>
+            <if test="enterpriseUsagetype != null">#{enterpriseUsagetype},</if>
+            <if test="enterpriseRisklevel != null">#{enterpriseRisklevel},</if>
+            <if test="enterpriseEnterpriseLevel != null">#{enterpriseEnterpriseLevel},</if>
+            <if test="enterpriseTzzytype != null">#{enterpriseTzzytype},</if>
+         </trim>
+    </insert>
+
+
+    <update id="updateSysEnterprise" parameterType="SysEnterprise">
+        update sys_enterprise
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="enterpriseName != null and enterpriseName != ''">enterprise_name = #{enterpriseName},</if>
+            <if test="enterpriseArea != null">enterprise_area = #{enterpriseArea},</if>
+            <if test="enterpriseCategory != null">enterprise_category = #{enterpriseCategory},</if>
+            <if test="enterpriseType != null">enterprise_type = #{enterpriseType},</if>
+            <if test="enterprise181type != null">enterprise_181type = #{enterprise181type},</if>
+            <if test="enterpriseGstype != null">enterprise_gstype = #{enterpriseGstype},</if>
+            <if test="enterpriseGrid != null">enterprise_grid = #{enterpriseGrid},</if>
+            <if test="enterprisePropertytype != null">enterprise_propertytype = #{enterprisePropertytype},</if>
+            <if test="enterpriseAddress != null">enterprise_address = #{enterpriseAddress},</if>
+            <if test="enterpriseNumber != null">enterprise_number = #{enterpriseNumber},</if>
+            <if test="enterpriseOfficer != null">enterprise_officer = #{enterpriseOfficer},</if>
+            <if test="enterpriseOfficerphone != null">enterprise_officerphone = #{enterpriseOfficerphone},</if>
+            <if test="enterpriseProducts != null">enterprise_products = #{enterpriseProducts},</if>
+            <if test="enterpriseDormitory != null">enterprise_dormitory = #{enterpriseDormitory},</if>
+            <if test="enterpriseMianji != null">enterprise_mianji = #{enterpriseMianji},</if>
+            <if test="enterpriseHazardous != null">enterprise_hazardous = #{enterpriseHazardous},</if>
+            <if test="enterpriseLab != null">enterprise_lab = #{enterpriseLab},</if>
+            <if test="enterpriseGastype != null">enterprise_gastype = #{enterpriseGastype},</if>
+            <if test="enterpriseUsagetype != null">enterprise_usagetype = #{enterpriseUsagetype},</if>
+            <if test="enterpriseRisklevel != null">enterprise_risklevel = #{enterpriseRisklevel},</if>
+            <if test="enterpriseEnterpriseLevel != null">enterprise_enterprise_level = #{enterpriseEnterpriseLevel},</if>
+            <if test="enterpriseTzzytype != null">enterprise_tzzytype = #{enterpriseTzzytype},</if>
+        </trim>
+        where enterprise_id = #{enterpriseId}
+    </update>
+
+
+    <!-- 迁出企业信息并插入到迁出表 -->
+    <insert id="moveOutEnterpriseById" parameterType="SysEnterpriseMove">
+        insert into sys_enterprise_move (enterprise_id, move_date, move_reason, move_person)
+        values (#{enterpriseId}, #{moveDate}, #{moveReason}, #{movePerson})
+    </insert>
+
+    <!-- 根据ID删除sys_enterprise表中的企业信息 -->
+    <delete id="deleteSysEnterpriseById" parameterType="Long">
+        delete from sys_enterprise where enterprise_id = #{enterpriseId}
+    </delete>
+
+
+    <delete id="deleteSysEnterpriseByEnterpriseId" parameterType="Long">
+        delete from sys_enterprise where enterprise_id = #{enterpriseId}
+    </delete>
+
+    <delete id="deleteSysEnterpriseByEnterpriseIds" parameterType="String">
+        delete from sys_enterprise where enterprise_id in 
+        <foreach item="enterpriseId" collection="array" open="(" separator="," close=")">
+            #{enterpriseId}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysOrdersMapper">
+    
+    <resultMap type="SysOrders" id="SysOrdersResult">
+        <result property="ordersId"    column="orders_id"    />
+        <result property="ordersType"    column="orders_type"    />
+        <result property="ordersProblemarea"    column="orders_problemarea"    />
+        <result property="ordersName"    column="orders_name"    />
+        <result property="ordersDescription"    column="orders_description"    />
+        <result property="ordersPhotopath"    column="orders_photopath"    />
+        <result property="ordersArea"    column="orders_area"    />
+        <result property="ordersGrid"    column="orders_grid"    />
+        <result property="ordersFindtime"    column="orders_findtime"    />
+        <result property="ordersSfsb"    column="orders_sfsb"    />
+        <result property="ordersRegisname"    column="orders_regisname"    />
+        <result property="ordersStatus"    column="orders_status"    />
+        <result property="ordersProcessingStatus"    column="orders_processing_status"    />
+        <result property="ordersHandler"    column="orders_handler"    />
+        <result property="ordersDays"    column="orders_days"    />
+        <result property="ordersGps"    column="orders_gps"    />
+    </resultMap>
+
+    <sql id="selectSysOrdersVo">
+        select orders_id, orders_type, orders_problemarea, orders_name, orders_description, orders_photopath, orders_area, orders_grid, orders_findtime, orders_sfsb, orders_regisname, orders_status, orders_processing_status, orders_handler, orders_days, orders_gps from sys_orders
+    </sql>
+
+    <select id="selectSysOrdersList" parameterType="SysOrders" resultMap="SysOrdersResult">
+        <include refid="selectSysOrdersVo"/>
+        <where>  
+            <if test="ordersType != null  and ordersType != ''"> and orders_type = #{ordersType}</if>
+            <if test="ordersProblemarea != null  and ordersProblemarea != ''"> and orders_problemarea = #{ordersProblemarea}</if>
+            <if test="ordersName != null  and ordersName != ''"> and orders_name like concat('%', #{ordersName}, '%')</if>
+            <if test="ordersDescription != null  and ordersDescription != ''"> and orders_description = #{ordersDescription}</if>
+            <if test="ordersPhotopath != null  and ordersPhotopath != ''"> and orders_photopath = #{ordersPhotopath}</if>
+            <if test="ordersArea != null  and ordersArea != ''"> and orders_area = #{ordersArea}</if>
+            <if test="ordersGrid != null  and ordersGrid != ''"> and orders_grid = #{ordersGrid}</if>
+            <if test="ordersFindtime != null "> and orders_findtime = #{ordersFindtime}</if>
+            <if test="ordersSfsb != null  and ordersSfsb != ''"> and orders_sfsb = #{ordersSfsb}</if>
+            <if test="ordersRegisname != null  and ordersRegisname != ''"> and orders_regisname like concat('%', #{ordersRegisname}, '%')</if>
+            <if test="ordersStatus != null  and ordersStatus != ''"> and orders_status = #{ordersStatus}</if>
+            <if test="ordersProcessingStatus != null  and ordersProcessingStatus != ''"> and orders_processing_status = #{ordersProcessingStatus}</if>
+            <if test="ordersHandler != null  and ordersHandler != ''"> and orders_handler = #{ordersHandler}</if>
+            <if test="ordersDays != null "> and orders_days = #{ordersDays}</if>
+            <if test="ordersGps != null  and ordersGps != ''"> and orders_gps = #{ordersGps}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysOrdersByOrdersId" parameterType="Long" resultMap="SysOrdersResult">
+        <include refid="selectSysOrdersVo"/>
+        where orders_id = #{ordersId}
+    </select>
+        
+    <insert id="insertSysOrders" parameterType="SysOrders" useGeneratedKeys="true" keyProperty="ordersId">
+        insert into sys_orders
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ordersType != null">orders_type,</if>
+            <if test="ordersProblemarea != null">orders_problemarea,</if>
+            <if test="ordersName != null">orders_name,</if>
+            <if test="ordersDescription != null">orders_description,</if>
+            <if test="ordersPhotopath != null">orders_photopath,</if>
+            <if test="ordersArea != null">orders_area,</if>
+            <if test="ordersGrid != null">orders_grid,</if>
+            <if test="ordersFindtime != null">orders_findtime,</if>
+            <if test="ordersSfsb != null">orders_sfsb,</if>
+            <if test="ordersRegisname != null">orders_regisname,</if>
+            <if test="ordersStatus != null">orders_status,</if>
+            <if test="ordersProcessingStatus != null">orders_processing_status,</if>
+            <if test="ordersHandler != null">orders_handler,</if>
+            <if test="ordersDays != null">orders_days,</if>
+            <if test="ordersGps != null">orders_gps,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ordersType != null">#{ordersType},</if>
+            <if test="ordersProblemarea != null">#{ordersProblemarea},</if>
+            <if test="ordersName != null">#{ordersName},</if>
+            <if test="ordersDescription != null">#{ordersDescription},</if>
+            <if test="ordersPhotopath != null">#{ordersPhotopath},</if>
+            <if test="ordersArea != null">#{ordersArea},</if>
+            <if test="ordersGrid != null">#{ordersGrid},</if>
+            <if test="ordersFindtime != null">#{ordersFindtime},</if>
+            <if test="ordersSfsb != null">#{ordersSfsb},</if>
+            <if test="ordersRegisname != null">#{ordersRegisname},</if>
+            <if test="ordersStatus != null">#{ordersStatus},</if>
+            <if test="ordersProcessingStatus != null">#{ordersProcessingStatus},</if>
+            <if test="ordersHandler != null">#{ordersHandler},</if>
+            <if test="ordersDays != null">#{ordersDays},</if>
+            <if test="ordersGps != null">#{ordersGps},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysOrders" parameterType="SysOrders">
+        update sys_orders
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ordersType != null">orders_type = #{ordersType},</if>
+            <if test="ordersProblemarea != null">orders_problemarea = #{ordersProblemarea},</if>
+            <if test="ordersName != null">orders_name = #{ordersName},</if>
+            <if test="ordersDescription != null">orders_description = #{ordersDescription},</if>
+            <if test="ordersPhotopath != null">orders_photopath = #{ordersPhotopath},</if>
+            <if test="ordersArea != null">orders_area = #{ordersArea},</if>
+            <if test="ordersGrid != null">orders_grid = #{ordersGrid},</if>
+            <if test="ordersFindtime != null">orders_findtime = #{ordersFindtime},</if>
+            <if test="ordersSfsb != null">orders_sfsb = #{ordersSfsb},</if>
+            <if test="ordersRegisname != null">orders_regisname = #{ordersRegisname},</if>
+            <if test="ordersStatus != null">orders_status = #{ordersStatus},</if>
+            <if test="ordersProcessingStatus != null">orders_processing_status = #{ordersProcessingStatus},</if>
+            <if test="ordersHandler != null">orders_handler = #{ordersHandler},</if>
+            <if test="ordersDays != null">orders_days = #{ordersDays},</if>
+            <if test="ordersGps != null">orders_gps = #{ordersGps},</if>
+        </trim>
+        where orders_id = #{ordersId}
+    </update>
+
+    <delete id="deleteSysOrdersByOrdersId" parameterType="Long">
+        delete from sys_orders where orders_id = #{ordersId}
+    </delete>
+
+    <delete id="deleteSysOrdersByOrdersIds" parameterType="String">
+        delete from sys_orders where orders_id in 
+        <foreach item="ordersId" collection="array" open="(" separator="," close=")">
+            #{ordersId}
+        </foreach>
+    </delete>
+
+</mapper>

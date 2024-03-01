@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增企业信息')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-enterprise-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">企业名称：</label>
+                <div class="col-sm-8">
+                    <input name="enterpriseName" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">所属片区：</label>
+                <div class="col-sm-8">
+                    <select class="form-control m-b" name="enterpriseArea" th:with="type=${@dict.getType('sys_enterprise_area')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">行业类别：</label>
+                <div class="col-sm-8">
+                    <select class="form-control m-b" name="enterpriseCategory" th:with="type=${@dict.getType('sys_enterprise_category')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">经营类型：</label>
+                <div class="col-sm-8">
+                    <select class="form-control m-b" name="enterpriseType" th:with="type=${@dict.getType('sys_enterprise_type')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">181平台类型：</label>
+                <div class="col-sm-8">
+                    <select class="form-control m-b" name="enterprise181type" th:with="type=${@dict.getType('sys_enterprise_181type')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">是否规上企业：</label>
+                <div class="col-sm-8">
+                    <select class="form-control m-b" name="enterpriseGstype">
+                        <option value="">请选择</option>
+                        <option value="是" selected>是</option>
+                        <option value="否">否</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">所属网格：</label>
+                <div class="col-sm-8">
+                    <select class="form-control m-b" name="enterpriseGrid" th:with="type=${@dict.getType('sys_enterprise_grid')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">产权类型：</label>
+                <div class="col-sm-8">
+                    <select class="form-control m-b" name="enterprisePropertytype" th:with="type=${@dict.getType('sys_enterprise_propertytype')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">实际经营地址：</label>
+                <div class="col-sm-8">
+                    <input name="enterpriseAddress" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">员工人数：</label>
+                <div class="col-sm-8">
+                    <input name="enterpriseNumber" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">安全负责人：</label>
+                <div class="col-sm-8">
+                    <input name="enterpriseOfficer" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">安全负责人电话：</label>
+                <div class="col-sm-8">
+                    <input name="enterpriseOfficerphone" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">主要产品：</label>
+                <div class="col-sm-8">
+                    <input name="enterpriseProducts" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否有宿舍：</label>
+                <div class="col-sm-8">
+                    <select class="form-control m-b" name="enterpriseDormitory">
+                        <option value="">请选择</option>
+                        <option value="是">是</option>
+                        <option value="否">否</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">宿舍面积：</label>
+                <div class="col-sm-8">
+                    <input name="enterpriseMianji" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否有危化品：</label>
+                <div class="col-sm-8">
+                    <select class="form-control m-b" name="enterpriseHazardous">
+                        <option value="">请选择</option>
+                        <option value="是">是</option>
+                        <option value="否">否</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否有理化实验室：</label>
+                <div class="col-sm-8">
+                    <select class="form-control m-b" name="enterpriseLab">
+                        <option value="">请选择</option>
+                        <option value="是">是</option>
+                        <option value="否">否</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">燃气种类：</label>
+                <div class="col-sm-8">
+                    <select class="form-control m-b" name="enterpriseGastype" th:with="type=${@dict.getType('sys_enterprise_gastype')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">燃气类型：</label>
+                <div class="col-sm-8">
+                    <select class="form-control m-b" name="enterpriseUsagetype" th:with="type=${@dict.getType('sys_enterprise_usagetype')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">特种作业类型：</label>
+                <div class="col-sm-8" th:with="type=${@dict.getType('sys_enterprise_tzzytype')}">
+                    <div th:each="dict : ${type}">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="enterpriseTzzytype" th:value="${dict.dictValue}" th:text="${dict.dictLabel}">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">危化品风险评级：</label>
+                <div class="col-sm-8">
+                    <select class="form-control m-b" name="enterpriseRisklevel" th:with="type=${@dict.getType('sys_enterprise_risklevel')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">工业企业风险定级：</label>
+                <div class="col-sm-8">
+                    <select class="form-control m-b" name="enterpriseEnterpriseLevel" th:with="type=${@dict.getType('sys_enterprise_enterprise_level')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "system/enterprise"
+        $("#form-enterprise-add").validate({
+            focusCleanup: true
+        });
+
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-enterprise-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

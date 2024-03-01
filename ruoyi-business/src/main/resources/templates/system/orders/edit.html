@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改随手拍工单信息')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-orders-edit" th:object="${sysOrders}">
+            <input name="ordersId" th:field="*{ordersId}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">问题区域：</label>
+                <div class="col-sm-8">
+                    <input name="ordersProblemarea" th:field="*{ordersProblemarea}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">问题名称：</label>
+                <div class="col-sm-8">
+                    <input name="ordersName" th:field="*{ordersName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">问题描述：</label>
+                <div class="col-sm-8">
+                    <input name="ordersDescription" th:field="*{ordersDescription}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">问题照片路径：</label>
+                <div class="col-sm-8">
+                    <input name="ordersPhotopath" th:field="*{ordersPhotopath}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">所属片区：</label>
+                <div class="col-sm-8">
+                    <input name="ordersArea" th:field="*{ordersArea}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">所属网格：</label>
+                <div class="col-sm-8">
+                    <input name="ordersGrid" th:field="*{ordersGrid}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发现时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input name="ordersFindtime" th:value="${#dates.format(sysOrders.ordersFindtime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否上报(0上报 1不上报)：</label>
+                <div class="col-sm-8">
+                    <input name="ordersSfsb" th:field="*{ordersSfsb}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">登记人姓名：</label>
+                <div class="col-sm-8">
+                    <input name="ordersRegisname" th:field="*{ordersRegisname}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">当前办理人：</label>
+                <div class="col-sm-8">
+                    <input name="ordersHandler" th:field="*{ordersHandler}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">已超天数：</label>
+                <div class="col-sm-8">
+                    <input name="ordersDays" th:field="*{ordersDays}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">GPS定位地址：</label>
+                <div class="col-sm-8">
+                    <input name="ordersGps" th:field="*{ordersGps}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "system/orders";
+        $("#form-orders-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-orders-edit').serialize());
+            }
+        }
+
+        $("input[name='ordersFindtime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

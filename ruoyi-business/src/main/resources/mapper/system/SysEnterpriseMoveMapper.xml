@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysEnterpriseMoveMapper">
+    
+    <resultMap type="SysEnterpriseMove" id="SysEnterpriseMoveResult">
+        <result property="moveId"    column="move_id"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="moveDate"    column="move_date"    />
+        <result property="moveReason"    column="move_reason"    />
+        <result property="movePerson"    column="move_person"    />
+    </resultMap>
+
+    <sql id="selectSysEnterpriseMoveVo">
+        select move_id, enterprise_id, move_date, move_reason, move_person from sys_enterprise_move
+    </sql>
+
+    <select id="selectSysEnterpriseMoveList" parameterType="SysEnterpriseMove" resultMap="SysEnterpriseMoveResult">
+        <include refid="selectSysEnterpriseMoveVo"/>
+        <where>  
+            <if test="enterpriseId != null "> and enterprise_id = #{enterpriseId}</if>
+            <if test="moveDate != null "> and move_date = #{moveDate}</if>
+            <if test="moveReason != null  and moveReason != ''"> and move_reason = #{moveReason}</if>
+            <if test="movePerson != null  and movePerson != ''"> and move_person = #{movePerson}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysEnterpriseMoveByMoveId" parameterType="Long" resultMap="SysEnterpriseMoveResult">
+        <include refid="selectSysEnterpriseMoveVo"/>
+        where move_id = #{moveId}
+    </select>
+        
+    <insert id="insertSysEnterpriseMove" parameterType="SysEnterpriseMove" useGeneratedKeys="true" keyProperty="moveId">
+        insert into sys_enterprise_move
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="enterpriseId != null">enterprise_id,</if>
+            <if test="moveDate != null">move_date,</if>
+            <if test="moveReason != null">move_reason,</if>
+            <if test="movePerson != null">move_person,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="enterpriseId != null">#{enterpriseId},</if>
+            <if test="moveDate != null">#{moveDate},</if>
+            <if test="moveReason != null">#{moveReason},</if>
+            <if test="movePerson != null">#{movePerson},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysEnterpriseMove" parameterType="SysEnterpriseMove">
+        update sys_enterprise_move
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="enterpriseId != null">enterprise_id = #{enterpriseId},</if>
+            <if test="moveDate != null">move_date = #{moveDate},</if>
+            <if test="moveReason != null">move_reason = #{moveReason},</if>
+            <if test="movePerson != null">move_person = #{movePerson},</if>
+        </trim>
+        where move_id = #{moveId}
+    </update>
+
+    <delete id="deleteSysEnterpriseMoveByMoveId" parameterType="Long">
+        delete from sys_enterprise_move where move_id = #{moveId}
+    </delete>
+
+    <delete id="deleteSysEnterpriseMoveByMoveIds" parameterType="String">
+        delete from sys_enterprise_move where move_id in 
+        <foreach item="moveId" collection="array" open="(" separator="," close=")">
+            #{moveId}
+        </foreach>
+    </delete>
+
+</mapper>
