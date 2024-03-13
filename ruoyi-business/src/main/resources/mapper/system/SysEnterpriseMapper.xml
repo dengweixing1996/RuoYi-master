@@ -66,6 +66,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectSysEnterpriseVo"/>
         where enterprise_id = #{enterpriseId}
     </select>
+    <!-- 根据企业名称查询企业信息 -->
+    <select id="selectEnterpriseByName" parameterType="String" resultMap="SysEnterpriseResult">
+        <include refid="selectSysEnterpriseVo"/>
+         WHERE enterprise_name = #{enterpriseName}
+    </select>
 
 
     <insert id="insertSysEnterprise" parameterType="SysEnterprise" useGeneratedKeys="true" keyProperty="enterpriseId">

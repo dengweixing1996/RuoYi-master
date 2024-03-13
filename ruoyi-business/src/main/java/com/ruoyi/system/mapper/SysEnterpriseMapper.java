@@ -13,6 +13,8 @@ import com.ruoyi.system.domain.SysEnterpriseMove;
  */
 public interface SysEnterpriseMapper 
 {
+    SysEnterprise selectEnterpriseByName(String enterpriseName);
+
     /**
      * 查询企业信息
      * 
@@ -46,6 +48,8 @@ public interface SysEnterpriseMapper
      * @return 结果
      */
     public int updateSysEnterprise(SysEnterprise sysEnterprise);
+
+
 
     /**
      * 删除企业信息

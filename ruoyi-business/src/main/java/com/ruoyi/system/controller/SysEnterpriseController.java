@@ -137,7 +137,7 @@ public class SysEnterpriseController extends BaseController
     }
     /**企业信息导入**/
     @Log(title = "企业信息", businessType = BusinessType.IMPORT)
-    @RequiresPermissions("system:enterprise:import")
+    @RequiresPermissions("system:user:import")
     @PostMapping("/importData")
     @ResponseBody
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception
@@ -148,7 +148,7 @@ public class SysEnterpriseController extends BaseController
         return AjaxResult.success(message);
     }
 
-    @RequiresPermissions("system:user:view")
+    @RequiresPermissions("system:enterprise:view")
     @GetMapping("/importTemplate")
     @ResponseBody
     public AjaxResult importTemplate()
