@@ -177,6 +177,17 @@ public class SysUserController extends BaseController
         mmap.put("postGroup", userService.selectUserPostGroup(userId));
         return prefix + "/view";
     }
+    /**
+     * 查询用户名
+     */
+    @GetMapping("/system/user/getLoginUserName")
+    @ResponseBody
+    public String getLoginUserName()
+    {
+        SysUser loginUser = ShiroUtils.getSysUser(); // 获取当前登录的用户信息
+        return loginUser.getUserName(); // 直接返回用户名
+    }
+
 
     /**
      * 修改保存用户

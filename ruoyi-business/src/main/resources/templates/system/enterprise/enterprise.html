@@ -136,7 +136,7 @@
                 <form id="moveOutForm">
                     <div class="form-group">
                         <label for="movePerson">迁出人</label>
-                        <input type="text" class="form-control" id="movePerson" name="movePerson" required>
+                        <input type="text" class="form-control" id="movePerson" name="movePerson" required readonly>
                     </div>
                     <div class="form-group">
                         <label for="moveDate">迁出日期</label>
@@ -175,7 +175,15 @@
             moveReason: $('#moveReason').val(), // 假设有一个ID为moveOutReason的输入框
             movePerson: $('#movePerson').val() // 假设有一个ID为moveOutPerson的输入框
         };
-
+        $(document).ready(function() {
+            $.ajax({
+                type: "GET",
+                url: "/system/user/getLoginUserName",
+                success: function(username) {
+                    $('#movePerson').val(username); // 自动填充当前登录用户名
+                }
+            });
+        });
         // 发送AJAX请求到后端
         $.ajax({
             type: "POST",
